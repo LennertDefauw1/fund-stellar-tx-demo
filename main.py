@@ -3,8 +3,12 @@ from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 
-bob_address = 'GBQIZ5G4OY7SIYFUWJWJEKGGMTCW5SX54GCC3TF6REDFW7P2IBGMWJ3T'
+bob_address = 'GAJAAVYJISA35LLSITSN552WPAA4M47SXXBX4VTFOHE5N4UQD3LCVQYG'
 global kp_alice
+
+
+def gen_random_address():
+    return Keypair.random().public_key
 
 
 def prepare_transaction():
@@ -30,7 +34,10 @@ def prepare_transaction():
             .set_timeout(30)
             .build())
 
-    print(transaction)
+    source_keypair = kp_alice
+    transaction.sign(source_keypair)
+
+    print(transaction.to_xdr())
 
 
 def get_fund_keypair():
