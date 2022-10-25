@@ -3,12 +3,12 @@ from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 
-bob_address = 'GAJAAVYJISA35LLSITSN552WPAA4M47SXXBX4VTFOHE5N4UQD3LCVQYG'
+bob_address = 'GBNCSEONENDSKCOZIX6QNLPFZBAOKBOHB2FGBD6NH2P27CB7WSMTLDST'
 global kp_alice
 
 
 def gen_random_address():
-    return Keypair.random().public_key
+    return Keypair.random()
 
 
 def prepare_transaction():
@@ -27,8 +27,8 @@ def prepare_transaction():
             network_passphrase=Network.PUBLIC_NETWORK_PASSPHRASE,
             base_fee=base_fee,
         )
-            .add_text_memo("Hello, Stellar!")
             .append_begin_sponsoring_future_reserves_op(bob_address)
+            .append_create_account_op(destination=bob_address, starting_balance="0")
             .append_change_trust_op(asset=asset, source=bob_address)
             .append_end_sponsoring_future_reserves_op(bob_address)
             .set_timeout(30)
@@ -49,4 +49,8 @@ def get_fund_keypair():
 
 if __name__ == '__main__':
     get_fund_keypair()
-    prepare_transaction()
+    add = gen_random_address()
+
+    print(add.public_key)
+    print(add.secret)
+    # prepare_transaction()
